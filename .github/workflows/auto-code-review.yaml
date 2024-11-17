@@ -32,7 +32,7 @@ jobs:
         run: pip list
 
       - name: Verify CLI command
-        run: which auto_code_review
+        run: which auto-code-review
 
       - name: Run auto code review
         env:
@@ -43,4 +43,4 @@ jobs:
           REPO_OWNER: ${{ github.repository_owner }}
           REPO_NAME: ${{ github.event.repository.name }}
           PULL_NUMBER: ${{ github.event.number }}
-        run: auto_code_review --config config.yaml
+        run: auto-code-review --config config.yaml
