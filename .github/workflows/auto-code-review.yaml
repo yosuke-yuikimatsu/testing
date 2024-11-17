@@ -1,32 +1,41 @@
-name: Auto Code Review
+name: Run main PR review
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - '*'
 
 jobs:
-  review:
+  pr_review:
     runs-on: ubuntu-latest
-
     permissions:
       contents: write
       pull-requests: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
 
-      - name: Install auto-code-review
-        run: pip install auto-code-review
+      - name: Install auto-code-review from PyPi
+        run: |
+          python -m pip install --upgrade pip
+          pip install auto-code-review
 
       - name: Run auto code review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: python -m auto_code_review.cli --congif config.yaml --owner ${{ github.repository_owner }} --repo ${{ github.event.repository.name }} --pr-number ${{ github.event.pull_request.number }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          PULL_NUMBER: ${{ github.event.number }}
+        run: auto_code_review --config config.yaml
