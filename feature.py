@@ -1,7 +1,8 @@
-n = int(input())
+n = int(input("Enter your number here:"))
 
 def is_prime(n) :
-    for i in range (2,n) :
-        if n % i == 0:
-            return False
-    return True
+    d = 2
+    while d*d <= n:
+        if n % d == 0:
+            return True
+    return False
