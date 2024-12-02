@@ -27,7 +27,7 @@ jobs:
       - name: Install auto-code-review from PyPi
         run: |
           python -m pip install --upgrade pip
-          pip install auto-code-review==0.1.1
+          pip install auto-code-review
       - name: Check installed packages
         run: pip list
 
