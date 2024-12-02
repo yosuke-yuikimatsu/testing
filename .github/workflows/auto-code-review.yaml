@@ -31,9 +31,6 @@ jobs:
       - name: Check installed packages
         run: pip list
 
-      - name: Verify CLI command
-        run: which auto-code-review
-
       - name: Run auto code review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
